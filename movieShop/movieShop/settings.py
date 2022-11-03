@@ -27,7 +27,9 @@ DEBUG = False
 
 ALLOWED_HOSTS = ["django-project-webtopics.herokuapp.com", "127.0.0.1"]
 
-
+CSRF_TRUSTED_ORIGINS = [
+    'django-project-webtopics.herokuapp.com'
+]
 # Application definition
 
 INSTALLED_APPS = [
@@ -76,8 +78,12 @@ WSGI_APPLICATION = 'movieShop.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'dfda686d7r53qm',
+        'USER': 'yrzfddjrhinask',
+        'PASSWORD': 'e2598a82dee54bb61fd1e41857a08e5c04cd2a4cc784fa43def2a270d23052af',
+        'HOST': 'ec2-54-246-185-161.eu-west-1.compute.amazonaws.com',
+        'PORT':  '5432',
     }
 }
 
