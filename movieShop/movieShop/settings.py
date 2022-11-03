@@ -28,7 +28,7 @@ DEBUG = False
 ALLOWED_HOSTS = ["django-project-webtopics.herokuapp.com", "127.0.0.1"]
 
 CSRF_TRUSTED_ORIGINS = [
-    'django-project-webtopics.herokuapp.com'
+    'https://django-project-webtopics.herokuapp.com'
 ]
 # Application definition
 
