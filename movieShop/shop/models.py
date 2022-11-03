@@ -36,7 +36,7 @@ class Movie(models.Model):
     )
     release = models.IntegerField(_('year'), choices=YEAR_CHOICES, default=datetime.datetime.now().year)
     platform = models.CharField(
-        max_length=2,
+        max_length=500,
         choices=Platform.choices,
         default=Platform.BLURAY,
     )
