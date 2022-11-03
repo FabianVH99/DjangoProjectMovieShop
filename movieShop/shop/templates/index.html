@@ -9,11 +9,10 @@
 <body>
     {% for movie in movies %}
 <div class="card" style="width: 18rem;">
-  <img class="card-img-top" src="{{ product.image }}" alt="Card image cap">
+  <img class="card-img-top" src="{{ movie.image }}" alt="Card image cap">
   <div class="card-body">
     <h4 class="card-title">{{ movie.title }}</h4>
     <h5 class="card-text">{{ movie.genre }}</h5>
-    <p class="card-text">{{ movie.description }}</p>
     <p class="card-text">{{ movie.price }}</p>
     <a href="#" class="btn btn-primary">Buy Now</a>
   </div>
