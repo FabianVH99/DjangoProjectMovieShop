@@ -1,5 +1,12 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+import datetime
+
+def year_choices():
+    return [(r,r) for r in range(1900, datetime.date.today().year+1)]
+
+def current_year():
+    return datetime.date.today().year
 
 class Movie(models.Model):
 
@@ -15,6 +22,11 @@ class Movie(models.Model):
         DRAMA = 'DR', _('Drama')
         ANIMATION = 'AN', _('Animation')
         FAMILY = 'FM', _('Family')
+    
+    class Platform(models.TextChoices):
+        VHS = 'VH', _('VHS')
+        DVD = 'DV', _('DVD')
+        BLURAY = 'BR', _('Blu-ray')
 
     title = models.CharField(max_length=200)
     description = models.TextField()
@@ -23,5 +35,7 @@ class Movie(models.Model):
         choices=Genre.choices,
         default=Genre.HORROR,
     )
+    release = models.IntegerField(_('year'), choices=year_choices, default=current_year)
+    platform = models.DecimalField(max_digits=4, decimal_places=2)
     price = models.DecimalField(max_digits=4, decimal_places=2)
     image = models.CharField(max_length=5000, null=True, blank=True)
