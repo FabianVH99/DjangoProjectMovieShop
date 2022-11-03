@@ -41,4 +41,5 @@ class Movie(models.Model):
         default=Platform.BLURAY,
     )
     price = models.DecimalField(max_digits=4, decimal_places=2)
+    stock = models.PositiveSmallIntegerField(default=0)
     image = models.CharField(max_length=5000, null=True, blank=True)
