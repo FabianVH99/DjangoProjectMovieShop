@@ -10,27 +10,27 @@ for r in range(1900, (datetime.datetime.now().year+1)):
 class Movie(models.Model):
 
     class Genre(models.TextChoices):
-        HORROR = 'HR', _('Horror')
-        ACTION = 'AC', _('Action')
-        ADVENTURE = 'AD', _('Adventure')
-        ROMANCE = 'RM', _('Romance')
-        DISASTER = 'DS', _('Disaster')
-        THRILLER = 'TH', _('Thriller')
-        MUSICAL = 'MS', _('Musical')
-        COMEDY = 'CM', _('Comedy')
-        DRAMA = 'DR', _('Drama')
-        ANIMATION = 'AN', _('Animation')
-        FAMILY = 'FM', _('Family')
+        HORROR = _('Horror')
+        ACTION =  _('Action')
+        ADVENTURE =  _('Adventure')
+        ROMANCE =  _('Romance')
+        DISASTER =  _('Disaster')
+        THRILLER =  _('Thriller')
+        MUSICAL = _('Musical')
+        COMEDY =  _('Comedy')
+        DRAMA =  _('Drama')
+        ANIMATION =  _('Animation')
+        FAMILY = _('Family')
     
     class Platform(models.TextChoices):
-        VHS = 'VH', _('VHS')
-        DVD = 'DV', _('DVD')
-        BLURAY = 'BR', _('Blu-ray')
+        VHS = _('VHS')
+        DVD = _('DVD')
+        BLURAY = _('Blu-ray')
 
     title = models.CharField(max_length=200)
     description = models.TextField()
     genre = models.CharField(
-        max_length=2,
+        max_length=500,
         choices=Genre.choices,
         default=Genre.HORROR,
     )
