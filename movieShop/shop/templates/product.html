@@ -43,7 +43,7 @@
                             <div id="doubleDropdown" class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700">
                                 <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="doubleDropdownButton">
                                   <li>
-                                    <a href="#" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Horror</a>
+                                    <a href="/Horror" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Horror</a>
                                   </li>
                                   <li>
                                     <a href="#" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Action</a>
@@ -115,28 +115,28 @@
   
       <div class="mx-auto max-w-2xl px-4 pt-10 pb-16 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pt-16 lg:pb-24">
         <div class="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-          <h1 class="text-2xl font-bold tracking-tight text-red-900 sm:text-3xl">{{ movie.title }}</h1>
+          <h1 class="text-2xl font-bold tracking-tight text-red-900 sm:text-3xl" style="color: white;">{{ movie.title }}</h1>
         </div>
   
         <div class="mt-4 lg:row-span-3 lg:mt-0" style="color: white;">
           <h2 class="sr-only">Product information</h2>
           <p class="text-3xl tracking-tight text-gray-900" style="color: white;">€{{ movie.price }}</p>
             <div >
-              <h3 class="text-lg font-medium text-red-900">Platform:</h3>
+              <h3 class="text-lg font-medium text-red-900" style="color: white;">Platform:</h3>
                 <p>{{ movie.platform }}</p>
             </div>
             <div>
-                <h3 class="text-lg font-medium text-red-900">Year of release:</h3>
+                <h3 class="text-lg font-medium text-red-900" style="color: white;">Year of release:</h3>
                   <p>{{ movie.release }}</p>
               </div>
               <div>
-                <h3 class="text-lg font-medium text-red-900">Genre:</h3>
+                <h3 class="text-lg font-medium text-red-900" style="color: white;">Genre:</h3>
                   <p>{{ movie.genre }}</p>
               </div>
               {% if movie.stock > 0 %}
               <button type="button" class="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-red-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Add to cart</button>
               {% else %}
-              <h3 class="text-lg font-medium text-red-900">This item is temporarily unavailable. You can subscribe to this item and get notified when it is back in stock.</h3>
+              <h3 class="text-lg font-medium text-red-900" style="color: white;">This item is temporarily unavailable. You can subscribe to this item and get notified when it is back in stock.</h3>
               <button type="button" data-modal-toggle="defaultModal" class="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-red-600 py-3 px-8 text-base font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Subscribe</button>
               {% endif %}
         </div>
@@ -148,12 +148,28 @@
             <div class="space-y-6">
               <p class="text-base text-red-900" style="color: white;">{{ movie.description }}</p>
             </div>
-            <br>
-            {% for product in products %}
-                <p>{{ product.title }}</p>
-            {% endfor %}
+            <div class="bg-gray">
+          
+              <div class="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+                <h1 class="text-lg font-medium text-red-900" style="color: white; padding-bottom: 1em;">More {{ movie.genre }} movies:</h1>
+                <div class="grid grid-cols-1 gap-y-8 gap-x-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 xl:gap-x-8">
+                  
+                  {% for product in products|slice:":6" %}
+                  <a href="#" class="group">
+                    <div class="aspect-w-3 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-10 xl:aspect-h-8">
+                      <img src="{{ product.image }}" class="h-full w-full object-cover object-center group-hover:opacity-75">
+                    </div>
+                    <h3 class="mt-4 text-sm text-gray-700" style="color: white;">{{ product.title }}</h3>
+                    <p class="mt-1 text-lg font-medium text-gray-900" style="color: white;">${{ product.price }}</p>
+                  </a>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
           </div>
+          
         </div>
+        
         <div id="defaultModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
             <div class="relative p-4 w-full max-w-md h-full md:h-auto">
                 <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
@@ -163,10 +179,11 @@
                     </button>
                     <div class="py-6 px-6 lg:px-8">
                         <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Subscribe to stay updated on {{ movie.title }}</h3>
-                        <form class="space-y-6" action="/subscribe/">
+                        <form class="space-y-6" method="POST" action="/subscribe/">
+                          {% csrf_token %}
                             <div>
                                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Your name</label>
-                                <input type="text" name="name" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
+                                <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
                             </div>
                             <div>
                                 <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Your email</label>
