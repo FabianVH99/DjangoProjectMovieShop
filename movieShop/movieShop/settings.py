@@ -87,11 +87,11 @@ WSGI_APPLICATION = 'movieShop.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dfda686d7r53qm',
-        'USER': 'yrzfddjrhinask',
+        'NAME': os.getenv("DBNAME"),
+        'USER': os.getenv("DBUSER"),
         'PASSWORD': os.getenv("DBPASS"),
-        'HOST': 'ec2-54-246-185-161.eu-west-1.compute.amazonaws.com',
-        'PORT':  '5432',
+        'HOST': os.getenv("DBHOST"),
+        'PORT':  os.getenv("DBPORT"),
     }
 }
 
