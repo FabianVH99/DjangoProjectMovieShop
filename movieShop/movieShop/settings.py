@@ -12,7 +12,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 import os
 from pathlib import Path
-from decouple import config
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -88,7 +89,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'dfda686d7r53qm',
         'USER': 'yrzfddjrhinask',
-        'PASSWORD': os.environ.get('DBPASS', True),
+        'PASSWORD': os.getenv("DBPASS"),
         'HOST': 'ec2-54-246-185-161.eu-west-1.compute.amazonaws.com',
         'PORT':  '5432',
     }
