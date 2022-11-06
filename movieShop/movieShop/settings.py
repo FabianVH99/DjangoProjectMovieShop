@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 import os
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,10 +21,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-i*oonbzak8bib9y%z00u!ah7=n*&5fp*(x83vn8(ibybpg%(!)'
+SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["django-project-webtopics.herokuapp.com", "127.0.0.1"]
 
@@ -87,7 +88,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'dfda686d7r53qm',
         'USER': 'yrzfddjrhinask',
-        'PASSWORD': 'e2598a82dee54bb61fd1e41857a08e5c04cd2a4cc784fa43def2a270d23052af',
+        'PASSWORD': config("DBPASS"),
         'HOST': 'ec2-54-246-185-161.eu-west-1.compute.amazonaws.com',
         'PORT':  '5432',
     }
