@@ -1,5 +1,6 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from django.contrib import messages
 from .models import Movie, Subscription
 from random import shuffle
 
@@ -23,6 +24,7 @@ def subscribe(request):
     post_movie = request.POST.get('movie_id', False)
     new_item = Subscription(name = post_name, mail = post_email, movie_id = post_movie)
     new_item.save()
+    messages.info(request, 'You have succesfully subscribed, we will let you know something soon!')
     return HttpResponseRedirect('/')
 
 def sortGenre(request, genre):

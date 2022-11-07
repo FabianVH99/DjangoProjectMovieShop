@@ -20,7 +20,6 @@ from shop.views import index, contact, product, subscribe, sortGenre
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index),
-    path('<genre>/', sortGenre),
     path('contact/', contact),
     path('product/<id>/', product),
     path('subscribe/', subscribe),

@@ -1,8 +1,14 @@
+import os
 from platform import platform
 from django.db import models
 from django.core.mail import send_mass_mail
 from django.utils.translation import gettext_lazy as _
 import datetime
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+import sendgrid
+from dotenv import load_dotenv
+load_dotenv()
 
 YEAR_CHOICES = []
 for r in range(1900, (datetime.datetime.now().year+1)):
@@ -55,9 +61,16 @@ class Movie(models.Model):
         if self.id:
             old_movie = Movie.objects.get(id=self.id)
             if old_movie.stock < 1 and self.stock > 0:
-                recipient_list = Subscription.objects.filter(movie_id=self.id)
-                stock_message = ('Stock updated for ' + self.title, 'The movie you are subscribed to is back in stock!', 'fabian.vanhaelen@student.odisee.be', recipient_list)
-                send_mass_mail((stock_message), fail_silently=False)
+                message = Mail(
+                from_email='fabian.vanhaelen@student.odisee.be',
+                to_emails=[f.mail for f in Subscription.objects.filter(movie_id=self.id)],
+                subject='Stock updated for ' + self.title,
+                html_content= '<div><h1>Stock updated for ' + self.title + '</h1><img src="'+self.image+'" style="max-width:25%;"</img><h3>The movie you are subscribed to is back in stock, check it out!</h3> https://django-project-webtopics.herokuapp.com/product/'+str(self.id)+'<br><small>You have automatically been unsubscribed from this movie. So there is no need for you to do anything else :)</small>')
+                
+                sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+                sg.send(message)
+                subscribers = Subscription.objects.filter(movie_id = self.id)
+                subscribers.delete()
         super(Movie, self).save()
 
 class Subscription(models.Model):
