@@ -5,8 +5,30 @@ from .models import Movie, Subscription
 from random import shuffle
 
 def index(request):
-    movies = Movie.objects.all()
-    return render(request, 'index.html', {'movies':movies})
+    if request.method == 'POST':
+        category = request.POST.get('category', '')
+        genre = request.POST.get('genre', '')
+        if category == 'trending':
+            movies = Movie.objects.filter(genre=genre).order_by('sold')
+            return render(request, 'index.html', {'movies':movies})
+        elif category == 'newest':
+            movies = Movie.objects.filter(genre=genre).order_by('-id')
+            return render(request, 'index.html', {'movies':movies})
+        elif category == 'high_to_low':
+            movies = Movie.objects.filter(genre=genre).order_by('-price')
+            return render(request, 'index.html', {'movies':movies})
+        elif category == 'low_to_high':
+            movies = Movie.objects.filter(genre=genre).order_by('price')
+            return render(request, 'index.html', {'movies':movies})
+        elif category == 'VHS' or category == 'DVD' or category == 'Blu-ray':
+            movies = Movie.objects.filter(genre=genre).filter(platform=category)
+            return render(request, 'index.html', {'movies':movies})
+        else:
+            movies = Movie.objects.filter(genre=category)
+            return render(request, 'index.html', {'movies':movies})
+    else:
+        movies = Movie.objects.all()
+        return render(request, 'index.html', {'movies':movies})
 
 def contact(request):
     return render(request, 'contact.html')
