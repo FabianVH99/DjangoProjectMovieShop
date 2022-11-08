@@ -38,7 +38,7 @@ Make an account if you do not have one set up yet and make a new app.
 You really only need to concern yourself with two things to link to your app which are **Dynos** and a **Heroku-postgres** database.
 
 Navigate to the **deploy** section of your app and link your repository to the app. You can set up other things like what branch to deploy and turning automatic deployment on or off.
-![Github_connect](assets\git.PNG)
+![Github_connect](https://raw.githubusercontent.com/FabianVH99/DjangoProjectMovieShop/main/assets/git.PNG)
 
 You can now use the deploy button to build and launch your application. This will fail at this point because the app is missing some crucial configuration which will be added later.
 
@@ -93,7 +93,7 @@ Make sure to make a config var in Heroku for every variable in your .env file.
 ### Database setup
 For this step we have to do some configuration in Heroku. How you do this is up to you, you can either use the cli or the webInterface. For the purposes of this project using the web interface is more than enough. If you have not yet added the Heroku-postgres addon to your app you should do so now. Navigate to the settings -> credentials overview of your database and copy the values shown to their respective variables in both the .env file and config vars on Heroku.
 
-![Database Credentials](assets\db.png)
+![Database Credentials](https://raw.githubusercontent.com/FabianVH99/DjangoProjectMovieShop/main/assets/db.png)
 
 The settings.py file should now point to the correct Database configuration. 
 You can make and migrate required data to your new database:
