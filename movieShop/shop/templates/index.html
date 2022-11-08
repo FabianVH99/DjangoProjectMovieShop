@@ -176,7 +176,7 @@
 							<li>
 								<form method="POST" action="/">
 								{% csrf_token %}
-								<input type="hidden" name="genre" value="{{ movie.genre }}">
+								{% if genre_set %}<input type="hidden" name="genre" value="{{ movie.genre }}">{% endif %}
 								<input type="hidden" name="category" value="trending">
 								<button type='submit' class="bg-opacity-0 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full">Trending</button>
 								</form>
@@ -184,7 +184,7 @@
 							<li>
 								<form method="POST" action="/">
 								{% csrf_token %}
-								<input type="hidden" name="genre" value="{{ movie.genre }}">
+								{% if genre_set %}<input type="hidden" name="genre" value="{{ movie.genre }}">{% endif %}
 								<input type="hidden" name="category" value="newest">
 								<button type='submit' class="bg-opacity-0 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full">Newest</button>
 								</form>
@@ -192,7 +192,7 @@
 							<li>
 								<form method="POST" action="/">
 								{% csrf_token %}
-								<input type="hidden" name="genre" value="{{ movie.genre }}">
+								{% if genre_set %}<input type="hidden" name="genre" value="{{ movie.genre }}">{% endif %}
 								<input type="hidden" name="category" value="high_to_low">
 								<button type='submit' class="bg-opacity-0 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full">Price: high to low</button>
 								</form>
@@ -200,7 +200,7 @@
 							<li>
 								<form method="POST" action="/">
 								{% csrf_token %}
-								<input type="hidden" name="genre" value="{{ movie.genre }}">
+								{% if genre_set %}<input type="hidden" name="genre" value="{{ movie.genre }}">{% endif %}
 								<input type="hidden" name="category" value="low_to_high">
 								<button type='submit' class="bg-opacity-0 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full">Price: low to high</button>
 								</form>

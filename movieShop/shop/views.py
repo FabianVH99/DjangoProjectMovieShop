@@ -8,26 +8,55 @@ def index(request):
     if request.method == 'POST':
         category = request.POST.get('category', '')
         genre = request.POST.get('genre', '')
-        if category == 'trending':
-            movies = Movie.objects.filter(genre=genre).order_by('sold')
-            return render(request, 'index.html', {'movies':movies})
-        elif category == 'newest':
-            movies = Movie.objects.filter(genre=genre).order_by('-id')
-            return render(request, 'index.html', {'movies':movies})
-        elif category == 'high_to_low':
-            movies = Movie.objects.filter(genre=genre).order_by('-price')
-            return render(request, 'index.html', {'movies':movies})
-        elif category == 'low_to_high':
-            movies = Movie.objects.filter(genre=genre).order_by('price')
-            return render(request, 'index.html', {'movies':movies})
-        elif category == 'VHS' or category == 'DVD' or category == 'Blu-ray':
-            movies = Movie.objects.filter(genre=genre).filter(platform=category)
-            return render(request, 'index.html', {'movies':movies})
+        
+        if genre != '':
+            if category == 'trending':
+                movies = Movie.objects.filter(genre=genre).order_by('sold')
+                genre_set = True
+                return render(request, 'index.html', {'movies':movies, 'genre_set':genre_set})
+            elif category == 'newest':
+                movies = Movie.objects.filter(genre=genre).order_by('-id')
+                genre_set = True
+                return render(request, 'index.html', {'movies':movies, 'genre_set':genre_set})
+            elif category == 'high_to_low':
+                movies = Movie.objects.filter(genre=genre).order_by('-price')
+                genre_set = True
+                return render(request, 'index.html', {'movies':movies, 'genre_set':genre_set})
+            elif category == 'low_to_high':
+                movies = Movie.objects.filter(genre=genre).order_by('price')
+                genre_set = True
+                return render(request, 'index.html', {'movies':movies, 'genre_set':genre_set})
+            elif category == 'VHS' or category == 'DVD' or category == 'Blu-ray':
+                movies = Movie.objects.filter(genre=genre).filter(platform=category)
+                return render(request, 'index.html', {'movies':movies, 'genre_set':genre_set})
+            else:
+                movies = Movie.objects.filter(genre=category)
+                genre_set = True
+                return render(request, 'index.html', {'movies':movies, 'genre_set':genre_set})
         else:
-            movies = Movie.objects.filter(genre=category)
-            return render(request, 'index.html', {'movies':movies})
+            if category == 'trending':
+                movies = Movie.objects.all().order_by('sold')
+                return render(request, 'index.html', {'movies':movies})
+            elif category == 'newest':
+                movies = Movie.objects.all().order_by('-id')
+                return render(request, 'index.html', {'movies':movies})
+            elif category == 'high_to_low':
+                movies = Movie.objects.all().order_by('-price')
+                return render(request, 'index.html', {'movies':movies})
+            elif category == 'low_to_high':
+                movies = Movie.objects.all().order_by('price')
+                return render(request, 'index.html', {'movies':movies})
+            elif category == 'VHS' or category == 'DVD' or category == 'Blu-ray':
+                movies = Movie.objects.all().filter(platform=category)
+                return render(request, 'index.html', {'movies':movies})
+            else:
+                movies = Movie.objects.filter(genre=category)
+                genre_set = True
+                return render(request, 'index.html', {'movies':movies, 'genre_set':genre_set})
+
     else:
         movies = Movie.objects.all()
+        genre_set = False
         return render(request, 'index.html', {'movies':movies})
 
 def contact(request):
