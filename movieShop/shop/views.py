@@ -2,6 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib import messages
 from .models import Movie, Subscription
+from django.db.models import F
 from random import shuffle
 
 def index(request):
@@ -11,7 +12,7 @@ def index(request):
         
         if genre != '':
             if category == 'trending':
-                movies = Movie.objects.filter(genre=genre).order_by('sold')
+                movies = Movie.objects.filter(genre=genre).order_by('-sold')
                 genre_set = True
                 return render(request, 'index.html', {'movies':movies, 'genre_set':genre_set})
             elif category == 'newest':
@@ -35,7 +36,7 @@ def index(request):
                 return render(request, 'index.html', {'movies':movies, 'genre_set':genre_set})
         else:
             if category == 'trending':
-                movies = Movie.objects.all().order_by('sold')
+                movies = Movie.objects.all().order_by('-sold')
                 return render(request, 'index.html', {'movies':movies})
             elif category == 'newest':
                 movies = Movie.objects.all().order_by('-id')
@@ -55,7 +56,7 @@ def index(request):
                 return render(request, 'index.html', {'movies':movies, 'genre_set':genre_set})
 
     else:
-        movies = Movie.objects.all()
+        movies = Movie.objects.all().order_by('-sold')
         genre_set = False
         return render(request, 'index.html', {'movies':movies})
 
@@ -78,6 +79,9 @@ def subscribe(request):
     messages.info(request, 'You have succesfully subscribed, we will let you know something soon!')
     return HttpResponseRedirect('/')
 
-def sortGenre(request, genre):
-    movies = Movie.objects.filter(genre=genre)
-    return render(request, 'index.html', {'movies':movies})
+def addToCart(request):
+    movie_id = request.POST.get('id', False)
+    Movie.objects.filter(id=movie_id).update(sold=F('sold')+1)
+    Movie.objects.filter(id=movie_id).update(stock=F('stock')-1)
+    messages.info(request, 'Thank you for your purchase')
+    return HttpResponseRedirect('/')

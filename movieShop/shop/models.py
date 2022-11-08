@@ -65,15 +65,19 @@ class Movie(models.Model):
                 from_email='fabian.vanhaelen@student.odisee.be',
                 to_emails=[f.mail for f in Subscription.objects.filter(movie_id=self.id)],
                 subject='Stock updated for ' + self.title,
-                html_content= '<div><h1>Stock updated for ' + self.title + '</h1><img src="'+self.image+'" style="max-width:25%;"</img><h3>The movie you are subscribed to is back in stock, check it out!</h3> https://django-project-webtopics.herokuapp.com/product/'+str(self.id)+'<br><small>You have automatically been unsubscribed from this movie. So there is no need for you to do anything else :)</small>')
+                html_content= '<div><h1>Stock updated for ' + self.title + '</h1><img src="'+self.image+'" style="max-width:25%;"></img><h3>The movie you are subscribed to is back in stock, check it out!</h3> https://django-project-webtopics.herokuapp.com/product/'+str(self.id)+'<br><small>You have automatically been unsubscribed from this movie. So there is no need for you to do anything else :)</small>')
                 
                 sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
                 sg.send(message)
                 subscribers = Subscription.objects.filter(movie_id = self.id)
                 subscribers.delete()
         super(Movie, self).save()
+    def __str__(self):
+       return str(self.id) + '. ' + self.title + ' (' + str(self.release) + ') [' + self.platform + ']'
 
 class Subscription(models.Model):
     name = models.CharField(max_length=50)
     mail = models.EmailField(max_length=254)
     movie_id = models.PositiveSmallIntegerField(default=0)
+    def __str__(self):
+       return self.mail + ' - Movie_id: ' + str(self.movie_id)
